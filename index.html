@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformers Quiz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Baloo 2', sans-serif;
+            background-color: #38B6FF; /* Background color */
+            color: black;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        #yellow-box {
+            width: 200px;
+            height: 200px;
+            background-color: #FED405; /* Yellow color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            border: 5px solid black; /* Black edging */
+            transition: transform 0.1s ease-in-out;
+        }
+
+        #question-answer {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* Keyframes for the bounce animation */
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Class to trigger the bounce animation */
+        .animate-bounce {
+            animation: bounce 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="yellow-box">TRANSFORMERS</div>
+
+    <div id="question-answer"></div>
+
+    <script>
+        const yellowBox = document.getElementById("yellow-box");
+        const questionAnswerDiv = document.getElementById("question-answer");
+
+        // Array of Transformers trivia questions and answers
+        const transformersQuestions = [
+            { question: "What is the name of the leader of the Autobots?", answer: "Optimus Prime" },
+            { question: "Which Transformers character is known for his iconic catchphrase 'More than meets the eye'?", answer: "Optimus Prime" },
+            { question: "Who is the leader of the Decepticons?", answer: "Megatron" },
+            { question: "What is the name of the Autobots' home planet?", answer: "Cybertron" },
+            { question: "Which Transformers character turns into a T-Rex?", answer: "Grimlock" },
+            { question: "What is the name of the female Autobot who transforms into a motorcycle?", answer: "Arcee" },
+            { question: "In the 1986 Transformers movie, who dies during the battle with Megatron?", answer: "Optimus Prime" },
+            { question: "Which Autobot transforms into a yellow Volkswagen Beetle?", answer: "Bumblebee" },
+            { question: "What is the name of the Transformers series that debuted in 2007?", answer: "Transformers: The Live-Action Film Series" },
+            { question: "Who is the chief medical officer of the Autobots?", answer: "Ratchet" },
+            { question: "What is the name of the Transformers' most powerful weapon?", answer: "The Matrix of Leadership" },
+            { question: "Which Transformers character has the ability to transform into a jet and is known for his speed?", answer: "Starscream" },
+            { question: "What is the name of the Decepticons' main base on Earth in the live-action film series?", answer: "The Nemesis" },
+            { question: "Which Autobot transforms into a fire truck?", answer: "Hot Spot" },
+            { question: "In the original Transformers cartoon, which character is a spy for the Decepticons?", answer: "Soundwave" },
+            { question: "Which Transformers series features the character Bumblebee as the main protagonist?", answer: "Transformers: Bumblebee" },
+            { question: "Who is the Decepticon known for his ability to transform into a tank?", answer: "Devastator" },
+            { question: "What is the name of the giant alien robot that the Autobots and Decepticons combine to form in the 1980s series?", answer: "Metroplex" },
+            { question: "Which Autobot transforms into a police car?", answer: "Prowl" },
+            { question: "What is the name of the Transformers film series director?", answer: "Michael Bay" },
+            { question: "Which Decepticon character transforms into a gun and is known for his brutal tactics?", answer: "Megatron" },
+            { question: "What is the name of the ancient Transformers who are the creators of Cybertron?", answer: "The Primes" },
+            { question: "Which character is known as the 'Master of the Decepticons'?", answer: "Galvatron" },
+            { question: "Which Autobot transforms into a race car?", answer: "Jazz" },
+            { question: "What is the name of the Transformers character who turns into a helicopter?", answer: "Blades" },
+            { question: "In the Transformers universe, what is the name of the dimension where the Transformers come from?", answer: "Cybertron" },
+            { question: "Which character is known for being a combiner robot, formed from the Decepticon team?", answer: "Devastator" },
+            { question: "What is the name of the Transformers character who turns into a crane?", answer: "Hook" },
+            { question: "Who is the Decepticon known for his mastery of stealth and disguise?", answer: "Shockwave" },
+            { question: "Which Transformers character is known for his ability to transform into a dinosaur and has a red color scheme?", answer: "Grimlock" },
+            { question: "What is the name of the Transformers series that focuses on the events after the original cartoon?", answer: "Transformers: Prime" },
+            { question: "Which Autobot transforms into a pickup truck and is known for his tough exterior?", answer: "Ironhide" },
+            { question: "What is the name of the Decepticon leader who appears in the Transformers movie series and is known for his imposing size?", answer: "Galvatron" },
+            { question: "Which Transformers character turns into a sports car and is known for his high speed?", answer: "Hot Rod" },
+            { question: "What is the name of the Decepticon who transforms into a tank and is known for his heavy firepower?", answer: "Onslaught" },
+            { question: "Which Autobot character transforms into a jet and is known for his aerial combat skills?", answer: "Silverbolt" },
+            { question: "What is the name of the character who is both an Autobot and a Decepticon in the Transformers universe?", answer: "Starscream" },
+            { question: "Which character is known for his ability to transform into a helicopter and is a member of the Combaticons?", answer: "Vortex" },
+            { question: "What is the name of the Transformers character who turns into a sports car and is a member of the Aerialbots?", answer: "Air Raid" },
+            { question: "Which Decepticon character transforms into a gun and is known for his precision and loyalty?", answer: "Laserbeak" },
+            { question: "What is the name of the giant alien robot that combines multiple Autobots into one form?", answer: "Superion" },
+            { question: "Which Transformers series focuses on the origins of the Transformers and their battle on Cybertron?", answer: "Transformers: War for Cybertron" },
+            { question: "Which Autobot character transforms into a Volkswagen and is known for his loyalty and bravery?", answer: "Bumblebee" },
+            { question: "What is the name of the Decepticon character who can transform into a tank and is known for his brute strength?", answer: "Brawl" },
+            { question: "Which Transformers character is known for his ability to transform into a dinosaur and is the leader of the Dinobots?", answer: "Grimlock" },
+            { question: "What is the name of the Transformers series that takes place in the future and features a new generation of Autobots and Decepticons?", answer: "Transformers: Cyberverse" },
+            { question: "Which character transforms into a fire truck and is known for his heroic efforts?", answer: "Hot Spot" },
+            { question: "What is the name of the Decepticon who is a master of disguise and transforms into a gun?", answer: "Megatron" }
+        ];
+
+        let shuffledQuestions = [];
+        let questionIndex = 0;
+
+        // Shuffle the questions array
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Initialize questions
+        function initializeQuestions() {
+            shuffledQuestions = shuffleArray([...transformersQuestions]);
+            questionIndex = 0;
+            displayQuestion();
+        }
+
+        // Function to display the current question
+        function displayQuestion() {
+            if (shuffledQuestions.length === 0) {
+                questionAnswerDiv.innerHTML = "<strong>No more questions!</strong>";
+                return;
+            }
+            const currentQA = shuffledQuestions[questionIndex];
+            questionAnswerDiv.innerHTML = `<strong>Question:</strong> ${currentQA.question}<br><strong>Answer:</strong> ${currentQA.answer}`;
+        }
+
+        // Bounce animation on click
+        yellowBox.addEventListener("click", () => {
+            yellowBox.classList.add("animate-bounce");
+            setTimeout(() => {
+                yellowBox.classList.remove("animate-bounce");
+            }, 300);
+
+            questionIndex = (questionIndex + 1) % shuffledQuestions.length;
+            displayQuestion();
+        });
+
+        // Initialize questions on page load
+        window.onload = initializeQuestions;
+    </script>
+
+</body>
+</html>
